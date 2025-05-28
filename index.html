@@ -1,10 +1,12 @@
-<html lang="pt-BR" toscacontainsshadowdom="false" openrequests="0"><head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entre o Laço e o Lançar | Proposta Artística</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&amp;family=Montserrat:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;0,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --color-bg: #fff9f9;
@@ -113,10 +115,12 @@
             transform: translateY(-5px);
         }
         
-        .image-placeholder svg {
-            width: 100%;
-            height: 100%;
-            opacity: 0.7;
+        /* Estilo para as imagens da galeria que serão clicáveis */
+        .image-placeholder img.gallery-image {
+            width: 100%; /* Faz a imagem preencher o placeholder */
+            height: 100%; /* Faz a imagem preencher o placeholder */
+            object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
+            cursor: pointer; /* Indica que é clicável */
         }
         
         .cta-button {
@@ -313,6 +317,60 @@
                 height: 350px;
             }
         }
+
+        /* --- Estilos para o Visualizador de Imagem (Overlay) --- */
+
+        /* Estilo para o overlay (fundo escuro que cobre a tela) */
+        .overlay {
+            /* display: none; */ /* Será controlado via JS, mas o padrão inicial é none */
+            position: fixed; /* Fixa na tela, independente da rolagem */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Fundo preto semi-transparente */
+            display: flex; /* Usado para centralizar a imagem */
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            z-index: 1000; /* Garante que fique acima de outros elementos na página */
+            opacity: 0; /* Começa invisível */
+            visibility: hidden; /* Esconde completamente */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Transição suave */
+        }
+
+        .overlay.active {
+            opacity: 1; /* Torna visível */
+            visibility: visible; /* Torna visível */
+        }
+
+        /* Estilo para a imagem dentro do overlay (imagem maximizada) */
+        .overlay img {
+            max-width: 90%; /* Limita o tamanho máximo da imagem */
+            max-height: 90%; /* Limita o tamanho máximo da imagem */
+            display: block; /* Garante que a imagem se comporte como um bloco */
+            margin: auto; /* Centraliza a imagem */
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilo para o botão de fechar (o 'x') */
+        .close-button {
+            position: absolute; /* Posição absoluta em relação ao overlay */
+            top: 20px;
+            right: 35px;
+            color: #fff; /* Cor branca */
+            font-size: 40px; /* Tamanho da fonte */
+            font-weight: bold; /* Negrito */
+            cursor: pointer; /* Muda o cursor para indicar que é clicável */
+            transition: 0.3s; /* Transição suave ao passar o mouse */
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #bbb; /* Cor mais clara ao passar o mouse */
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -347,24 +405,14 @@
                 </div>
                 
                 <div class="image-gallery">
-                    <!-- Image placeholders for Act I -->
                     <div class="image-placeholder">
-                        <img 
-                          src="https://i.imgur.com/pixFyja_d.png?maxwidth=520&shape=thumb&fidelity=high" 
-                          alt="Imagem Ato I" />
-                        <!--svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#d4b0b0" d="M45.7,-76.5C58.9,-69.2,69.2,-55.9,76.3,-41.5C83.4,-27.1,87.3,-11.6,85.6,3.1C83.9,17.7,76.6,31.5,67.4,43.9C58.2,56.3,47.1,67.3,34,74.1C20.9,80.9,5.8,83.5,-8.9,81.2C-23.6,78.9,-37.9,71.7,-49.4,61.7C-60.9,51.7,-69.6,38.9,-75.1,24.7C-80.6,10.5,-82.9,-5.1,-78.9,-18.5C-74.9,-31.9,-64.6,-43.1,-52.6,-50.4C-40.6,-57.7,-26.9,-61.1,-13.5,-62.2C-0.1,-63.3,12.9,-62.1,26.3,-63.1C39.7,-64.1,53.5,-67.3,45.7,-76.5Z" transform="translate(100 100)"></path>
-                        </svg-->
+                        <img src="https://i.imgur.com/pixFyja_d.png?maxwidth=520&shape=thumb&fidelity=high" alt="Imagem Ato I 1" class="gallery-image">
                     </div>
                     <div class="image-placeholder">
-                        <!--svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#d4b0b0" d="M39.2,-65.7C52.3,-60.1,65.5,-52.5,74.2,-41C82.9,-29.5,87.1,-14.7,85.9,-0.7C84.7,13.3,78.1,26.7,69.4,37.7C60.7,48.7,49.9,57.4,38,63.3C26.1,69.2,13.1,72.3,-0.2,72.6C-13.5,72.9,-27,70.4,-39.1,64.5C-51.2,58.6,-61.9,49.3,-68.8,37.7C-75.7,26.1,-78.8,13,-77.9,0.5C-77,-12,-72.1,-24,-65.1,-34.8C-58.1,-45.6,-49,-55.2,-38,-61.3C-27,-67.4,-13.5,-70,0.2,-70.3C13.8,-70.6,27.7,-68.6,39.2,-65.7Z" transform="translate(100 100)"></path>
-                        </svg-->
+                        <img src="https://placehold.co/300x400/d4b0b0/ffffff?text=Ato+I+Imagem+2" alt="Imagem Ato I 2" class="gallery-image">
                     </div>
                     <div class="image-placeholder">
-                        <!--svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#d4b0b0" d="M47.7,-79.9C62.4,-72.2,75.3,-60.5,83.1,-46.1C90.9,-31.7,93.6,-15.8,91.8,-0.9C90.1,13.9,83.9,27.9,74.9,39.9C65.9,51.9,54.1,62,40.8,69.3C27.5,76.7,12.7,81.3,-1.9,84.2C-16.6,87.1,-33.2,88.3,-47.1,82.1C-61,75.9,-72.2,62.3,-79.9,47.1C-87.6,31.9,-91.8,15.9,-91.2,0.3C-90.7,-15.3,-85.4,-30.6,-76.6,-43.6C-67.8,-56.6,-55.5,-67.3,-41.7,-75.3C-27.9,-83.3,-13.9,-88.6,1,-90.3C16,-92,31.9,-87.1,47.7,-79.9Z" transform="translate(100 100)"></path>
-                    </svg-->
+                        <img src="https://placehold.co/300x400/d4b0b0/ffffff?text=Ato+I+Imagem+3" alt="Imagem Ato I 3" class="gallery-image">
                     </div>
                 </div>
             </section>
@@ -380,21 +428,14 @@
                 </div>
                 
                 <div class="image-gallery">
-                    <!-- Image placeholders for Act II -->
                     <div class="image-placeholder">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#d4b0b0" d="M54.2,-76.3C71.3,-69.2,86.9,-56.3,93.2,-40.3C99.5,-24.3,96.5,-5.2,90.6,11.7C84.7,28.6,75.9,43.3,64.1,55.7C52.3,68.1,37.5,78.2,21.2,83.1C4.9,88,-12.9,87.7,-29.1,82.5C-45.3,77.3,-59.9,67.2,-70.1,53.7C-80.3,40.2,-86.1,23.3,-87.1,6.1C-88.1,-11.1,-84.3,-28.5,-74.9,-42.1C-65.5,-55.7,-50.5,-65.5,-35.5,-73.2C-20.5,-80.9,-5.5,-86.5,9.7,-86.3C24.9,-86.1,49.8,-80.1,54.2,-76.3Z" transform="translate(100 100)"></path>
-                        </svg>
+                        <img src="https://placehold.co/300x400/8a7575/ffffff?text=Ato+II+Imagem+1" alt="Imagem Ato II 1" class="gallery-image">
                     </div>
                     <div class="image-placeholder">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#d4b0b0" d="M42.7,-71.1C56.9,-64.5,71.1,-55.9,79.2,-43C87.3,-30.1,89.3,-13,87.1,3.2C84.9,19.5,78.5,34.9,69.1,47.9C59.7,60.9,47.3,71.5,33.2,77.2C19.1,82.9,3.3,83.7,-12.2,81.1C-27.7,78.5,-42.9,72.5,-54.9,62.5C-66.9,52.5,-75.7,38.5,-80.3,23.3C-84.9,8.1,-85.3,-8.3,-80.1,-22.3C-74.9,-36.3,-64.1,-47.9,-51.3,-55.3C-38.5,-62.7,-23.8,-65.9,-8.9,-67.2C6,-68.5,12,-68,19.9,-66.1C27.8,-64.2,37.7,-60.9,42.7,-71.1Z" transform="translate(100 100)"></path>
-                        </svg>
+                        <img src="https://placehold.co/300x400/8a7575/ffffff?text=Ato+II+Imagem+2" alt="Imagem Ato II 2" class="gallery-image">
                     </div>
                     <div class="image-placeholder">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#d4b0b0" d="M48.9,-75.9C64.2,-69.1,78.3,-58.3,85.5,-44.1C92.7,-29.9,93,-12.4,89.1,3.3C85.2,19,77.1,32.9,67.2,44.9C57.3,56.9,45.6,67,32.1,73.5C18.6,80,3.3,82.9,-11.9,81.3C-27.1,79.7,-42.2,73.6,-54.4,63.7C-66.6,53.8,-75.9,40.1,-81.1,25C-86.3,9.9,-87.5,-6.6,-83.3,-21.2C-79.1,-35.8,-69.5,-48.5,-57.1,-56.8C-44.7,-65.1,-29.5,-69,-14.9,-70.5C-0.3,-72,14.7,-71.1,29.2,-71.9C43.7,-72.7,57.7,-75.2,48.9,-75.9Z" transform="translate(100 100)"></path>
-                        </svg>
+                        <img src="https://placehold.co/300x400/8a7575/ffffff?text=Ato+II+Imagem+3" alt="Imagem Ato II 3" class="gallery-image">
                     </div>
                 </div>
             </section>
@@ -411,21 +452,14 @@
                 </div>
                 
                 <div class="image-gallery">
-                    <!-- Image placeholders for Act III -->
                     <div class="image-placeholder">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#d4b0b0" d="M47.3,-79.7C62.2,-72.3,76,-61.9,84.4,-47.9C92.8,-33.9,95.8,-16.9,93.9,-1.1C92,14.8,85.2,29.5,76.1,42.3C67,55,55.7,65.7,42.4,72.9C29.1,80.1,13.8,83.8,-1.3,85.9C-16.4,88,-32.8,88.5,-46.3,82.1C-59.8,75.7,-70.4,62.4,-77.9,47.5C-85.4,32.6,-89.8,16.3,-89.3,0.3C-88.8,-15.7,-83.4,-31.5,-74.1,-44.5C-64.8,-57.5,-51.6,-67.8,-37.5,-75.4C-23.4,-83,-11.7,-87.9,1.9,-91C15.5,-94.1,31,-94.4,47.3,-79.7Z" transform="translate(100 100)"></path>
-                        </svg>
+                        <img src="https://placehold.co/300x400/333333/ffffff?text=Ato+III+Imagem+1" alt="Imagem Ato III 1" class="gallery-image">
                     </div>
                     <div class="image-placeholder">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#d4b0b0" d="M42.5,-71.3C56.3,-65.1,69.7,-56.2,78.2,-43.5C86.7,-30.8,90.3,-14.1,88.7,1.9C87.1,17.9,80.3,33.8,70.3,47.1C60.3,60.4,47.1,71.1,32.5,76.5C17.9,81.9,1.9,82,-13.5,79.3C-28.9,76.6,-43.7,71.1,-56.1,61.7C-68.5,52.3,-78.5,39,-83.1,24.1C-87.7,9.2,-86.9,-7.3,-81.2,-21.7C-75.5,-36.1,-64.9,-48.4,-52,-57.1C-39.1,-65.8,-23.9,-70.9,-8.8,-71.8C6.3,-72.7,12.5,-69.4,23.1,-69.3C33.7,-69.2,48.7,-72.3,42.5,-71.3Z" transform="translate(100 100)"></path>
-                        </svg>
+                        <img src="https://placehold.co/300x400/333333/ffffff?text=Ato+III+Imagem+2" alt="Imagem Ato III 2" class="gallery-image">
                     </div>
                     <div class="image-placeholder">
-                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#d4b0b0" d="M54.4,-91.3C71.2,-83.1,85.8,-69.9,93.6,-53.7C101.4,-37.5,102.4,-18.7,99.9,-1.4C97.5,15.9,91.6,31.8,82.2,45.3C72.8,58.8,59.9,69.9,45.3,77.1C30.7,84.3,14.4,87.6,-1.3,89.7C-17,91.8,-33.9,92.7,-48.2,86.5C-62.5,80.3,-74.1,67,-82.1,52C-90.1,37,-94.5,20.5,-94.1,4.3C-93.7,-12,-88.5,-24,-80.9,-34.9C-73.3,-45.8,-63.3,-55.6,-51.1,-65.8C-38.9,-76,-19.5,-86.5,-0.2,-86.2C19.1,-85.9,38.2,-74.8,54.4,-91.3Z" transform="translate(100 100)"></path>
-                        </svg>
+                        <img src="https://placehold.co/300x400/333333/ffffff?text=Ato+III+Imagem+3" alt="Imagem Ato III 3" class="gallery-image">
                     </div>
                 </div>
             </section>
@@ -534,20 +568,65 @@
         </footer>
     </div>
     
+    <div id="imageOverlay" class="overlay">
+        <span class="close-button">&times;</span>
+        <img src="" alt="Imagem maximizada" id="maximizedImage">
+    </div>
+
     <script>
         function showPage(pageId) {
-            // Hide all pages
+            // Esconde todas as páginas
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Show the selected page
+            // Mostra a página selecionada
             document.getElementById(pageId).classList.add('active');
             
-            // Scroll to top
+            // Rola para o topo da página
             window.scrollTo(0, 0);
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'946f58f6408b9513',t:'MTc0ODQ1MjAzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
 
-</body></html>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Seleciona todas as imagens da galeria que queremos que sejam clicáveis
+            // A classe 'gallery-image' foi adicionada às tags <img> dentro de .image-placeholder
+            const galleryImages = document.querySelectorAll('.image-gallery img.gallery-image');
+            const imageOverlay = document.getElementById('imageOverlay');
+            const maximizedImage = document.getElementById('maximizedImage');
+            const closeButton = document.querySelector('.close-button');
+
+            // Adiciona um 'listener' de clique a cada imagem da galeria
+            galleryImages.forEach(image => {
+                image.addEventListener('click', () => {
+                    // Define o 'src' da imagem maximizada para ser o mesmo da imagem clicada
+                    maximizedImage.src = image.src;
+                    // Mostra o overlay adicionando a classe 'active' para transição suave
+                    imageOverlay.classList.add('active');
+                });
+            });
+
+            // Adiciona um 'listener' de clique ao botão de fechar
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    // Esconde o overlay removendo a classe 'active'
+                    imageOverlay.classList.remove('active');
+                });
+            }
+
+            // Adiciona um 'listener' de clique ao próprio overlay para fechar ao clicar fora da imagem
+            if (imageOverlay) {
+                imageOverlay.addEventListener('click', (event) => {
+                    // Se o clique ocorreu no próprio overlay (e não na imagem maximizada dentro dele)
+                    if (event.target === imageOverlay) {
+                        // Esconde o overlay
+                        imageOverlay.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
