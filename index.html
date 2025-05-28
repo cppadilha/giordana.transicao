@@ -1,0 +1,550 @@
+<html lang="pt-BR" toscacontainsshadowdom="false" openrequests="0"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entre o Laço e o Lançar | Proposta Artística</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&amp;family=Montserrat:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #fff9f9;
+            --color-text: #333333;
+            --color-accent: #d4b0b0;
+            --color-light: #f5eeee;
+            --color-dark: #8a7575;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-serif);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 80px 20px 40px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.8), var(--color-bg));
+        }
+        
+        h1 {
+            font-family: var(--font-serif);
+            font-weight: 300;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--color-dark);
+            letter-spacing: 1px;
+        }
+        
+        h2 {
+            font-family: var(--font-serif);
+            font-weight: 400;
+            font-size: 2.2rem;
+            margin: 60px 0 30px;
+            color: var(--color-dark);
+        }
+        
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section {
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 1px;
+            background-color: var(--color-accent);
+            margin: 15px auto;
+        }
+        
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .image-placeholder {
+            width: 300px;
+            height: 400px;
+            background-color: var(--color-light);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-placeholder:hover {
+            transform: translateY(-5px);
+        }
+        
+        .image-placeholder svg {
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            letter-spacing: 1px;
+            margin-top: 40px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .cta-button:hover {
+            background-color: var(--color-dark);
+            transform: translateY(-3px);
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .act {
+            padding: 60px 0;
+            position: relative;
+        }
+        
+        .act::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 1px;
+            background-color: var(--color-accent);
+        }
+        
+        .act-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .act-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--color-dark);
+        }
+        
+        .act-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+        
+        .emoji-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        /* Commercial Page Styles */
+        .commercial-page {
+            display: none;
+            background-color: var(--color-bg);
+            min-height: 100vh;
+        }
+        
+        .commercial-header {
+            text-align: center;
+            padding: 60px 20px 30px;
+        }
+        
+        .info-block {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .info-block h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--color-dark);
+        }
+        
+        .info-block ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        .info-block li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .info-block li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--color-accent);
+        }
+        
+        .footer {
+            background-color: var(--color-light);
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer h3 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info {
+            margin-top: 20px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 10px;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--color-dark);
+            border: 1px solid var(--color-dark);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: var(--color-dark);
+            color: white;
+        }
+        
+        /* Navigation */
+        .page {
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .image-gallery {
+                gap: 15px;
+            }
+            
+            .image-placeholder {
+                width: 100%;
+                max-width: 300px;
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Proposta Artística -->
+    <div id="page1" class="page active">
+        <header>
+            <div class="container">
+                <h1>Entre o Laço e o Lançar</h1>
+                <p>Uma travessia fotográfica em três atos</p>
+            </div>
+        </header>
+        
+        <main class="container">
+            <section class="section">
+                <div class="act-content">
+                    <span class="emoji-icon">🌸</span>
+                    <p>Há momentos que não pedem apenas uma foto, mas uma travessia.</p>
+                    <p>Quando o tempo dobra entre o que fomos e o que estamos nos tornando, nasce a necessidade de se ver com os próprios olhos — não como nos veem, mas como finalmente nos reconhecemos.</p>
+                    <p>Este ensaio não é só um presente pelos seus 31 anos. É um gesto de autoria.</p>
+                    <p>Um marco silencioso e belo entre o fim de uma juventude dançante e o início de uma maturidade luminosa.</p>
+                    <p>"Entre o Laço e o Lançar" é o seu nome. E talvez, também, o seu momento.</p>
+                </div>
+            </section>
+            
+            <section class="act">
+                <div class="act-content">
+                    <span class="emoji-icon">✨</span>
+                    <h2 class="act-title">Ato I – O Fim da Festa</h2>
+                    <p class="act-text">Ainda moram em você os domingos leves, as risadas altas, os pés descalços no campo. Este primeiro ato é uma carta de amor à garota que você foi — e ainda é, de alguma forma.</p>
+                    <p class="act-text">É sobre correr sem destino, com o laço no cabelo e a alma entregue à brisa. É sobre as amizades que testemunham sua transformação, e os balões que você segura pela última vez antes de soltá-los.</p>
+                    <p class="act-text">Porque crescer não precisa ser um adeus — pode ser um abraço que dança entre o passado e o presente.</p>
+                </div>
+                
+                <div class="image-gallery">
+                    <!-- Image placeholders for Act I -->
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#d4b0b0" d="M45.7,-76.5C58.9,-69.2,69.2,-55.9,76.3,-41.5C83.4,-27.1,87.3,-11.6,85.6,3.1C83.9,17.7,76.6,31.5,67.4,43.9C58.2,56.3,47.1,67.3,34,74.1C20.9,80.9,5.8,83.5,-8.9,81.2C-23.6,78.9,-37.9,71.7,-49.4,61.7C-60.9,51.7,-69.6,38.9,-75.1,24.7C-80.6,10.5,-82.9,-5.1,-78.9,-18.5C-74.9,-31.9,-64.6,-43.1,-52.6,-50.4C-40.6,-57.7,-26.9,-61.1,-13.5,-62.2C-0.1,-63.3,12.9,-62.1,26.3,-63.1C39.7,-64.1,53.5,-67.3,45.7,-76.5Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#d4b0b0" d="M39.2,-65.7C52.3,-60.1,65.5,-52.5,74.2,-41C82.9,-29.5,87.1,-14.7,85.9,-0.7C84.7,13.3,78.1,26.7,69.4,37.7C60.7,48.7,49.9,57.4,38,63.3C26.1,69.2,13.1,72.3,-0.2,72.6C-13.5,72.9,-27,70.4,-39.1,64.5C-51.2,58.6,-61.9,49.3,-68.8,37.7C-75.7,26.1,-78.8,13,-77.9,0.5C-77,-12,-72.1,-24,-65.1,-34.8C-58.1,-45.6,-49,-55.2,-38,-61.3C-27,-67.4,-13.5,-70,0.2,-70.3C13.8,-70.6,27.7,-68.6,39.2,-65.7Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#d4b0b0" d="M47.7,-79.9C62.4,-72.2,75.3,-60.5,83.1,-46.1C90.9,-31.7,93.6,-15.8,91.8,-0.9C90.1,13.9,83.9,27.9,74.9,39.9C65.9,51.9,54.1,62,40.8,69.3C27.5,76.7,12.7,81.3,-1.9,84.2C-16.6,87.1,-33.2,88.3,-47.1,82.1C-61,75.9,-72.2,62.3,-79.9,47.1C-87.6,31.9,-91.8,15.9,-91.2,0.3C-90.7,-15.3,-85.4,-30.6,-76.6,-43.6C-67.8,-56.6,-55.5,-67.3,-41.7,-75.3C-27.9,-83.3,-13.9,-88.6,1,-90.3C16,-92,31.9,-87.1,47.7,-79.9Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="act">
+                <div class="act-content">
+                    <span class="emoji-icon">🌿</span>
+                    <h2 class="act-title">Ato II – A Mulher que Surge</h2>
+                    <p class="act-text">Aqui, nasce o silêncio da decisão. O corpo se firma, o olhar se alonga, o gesto se purifica. O jaleco deixa de ser uniforme e passa a ser extensão de um propósito.</p>
+                    <p class="act-text">Neste segundo ato, você se encontra — inteira, digna, preparada.</p>
+                    <p class="act-text">Cada detalhe é cuidado como uma flor de laboratório: exato, mas sensível. Você olha para si e vê não mais quem sonha em ser, mas quem já é.</p>
+                    <p class="act-text">E se for para começar uma nova etapa, que seja com a estética de quem já entendeu que beleza é presença.</p>
+                </div>
+                
+                <div class="image-gallery">
+                    <!-- Image placeholders for Act II -->
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#d4b0b0" d="M54.2,-76.3C71.3,-69.2,86.9,-56.3,93.2,-40.3C99.5,-24.3,96.5,-5.2,90.6,11.7C84.7,28.6,75.9,43.3,64.1,55.7C52.3,68.1,37.5,78.2,21.2,83.1C4.9,88,-12.9,87.7,-29.1,82.5C-45.3,77.3,-59.9,67.2,-70.1,53.7C-80.3,40.2,-86.1,23.3,-87.1,6.1C-88.1,-11.1,-84.3,-28.5,-74.9,-42.1C-65.5,-55.7,-50.5,-65.5,-35.5,-73.2C-20.5,-80.9,-5.5,-86.5,9.7,-86.3C24.9,-86.1,49.8,-80.1,54.2,-76.3Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#d4b0b0" d="M42.7,-71.1C56.9,-64.5,71.1,-55.9,79.2,-43C87.3,-30.1,89.3,-13,87.1,3.2C84.9,19.5,78.5,34.9,69.1,47.9C59.7,60.9,47.3,71.5,33.2,77.2C19.1,82.9,3.3,83.7,-12.2,81.1C-27.7,78.5,-42.9,72.5,-54.9,62.5C-66.9,52.5,-75.7,38.5,-80.3,23.3C-84.9,8.1,-85.3,-8.3,-80.1,-22.3C-74.9,-36.3,-64.1,-47.9,-51.3,-55.3C-38.5,-62.7,-23.8,-65.9,-8.9,-67.2C6,-68.5,12,-68,19.9,-66.1C27.8,-64.2,37.7,-60.9,42.7,-71.1Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#d4b0b0" d="M48.9,-75.9C64.2,-69.1,78.3,-58.3,85.5,-44.1C92.7,-29.9,93,-12.4,89.1,3.3C85.2,19,77.1,32.9,67.2,44.9C57.3,56.9,45.6,67,32.1,73.5C18.6,80,3.3,82.9,-11.9,81.3C-27.1,79.7,-42.2,73.6,-54.4,63.7C-66.6,53.8,-75.9,40.1,-81.1,25C-86.3,9.9,-87.5,-6.6,-83.3,-21.2C-79.1,-35.8,-69.5,-48.5,-57.1,-56.8C-44.7,-65.1,-29.5,-69,-14.9,-70.5C-0.3,-72,14.7,-71.1,29.2,-71.9C43.7,-72.7,57.7,-75.2,48.9,-75.9Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="act">
+                <div class="act-content">
+                    <span class="emoji-icon">🌌</span>
+                    <h2 class="act-title">Ato III – Entre Mundos</h2>
+                    <p class="act-text">A cidade acende suas luzes como se soubesse: algo em você mudou. Você caminha devagar, não por hesitação — mas porque aprendeu a saborear o que passa.</p>
+                    <p class="act-text">Neste terceiro ato, há um reencontro com o mundo. A mulher que sai à noite não procura mais por festas. Ela procura por sentido.</p>
+                    <p class="act-text">É a imagem do depois. Do que resta depois da festa, depois do curso, depois da menina.</p>
+                    <p class="act-text">E o que resta… é você. Firme, delicada, inteira.</p>
+                    <p class="act-text">Pronta.</p>
+                </div>
+                
+                <div class="image-gallery">
+                    <!-- Image placeholders for Act III -->
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#d4b0b0" d="M47.3,-79.7C62.2,-72.3,76,-61.9,84.4,-47.9C92.8,-33.9,95.8,-16.9,93.9,-1.1C92,14.8,85.2,29.5,76.1,42.3C67,55,55.7,65.7,42.4,72.9C29.1,80.1,13.8,83.8,-1.3,85.9C-16.4,88,-32.8,88.5,-46.3,82.1C-59.8,75.7,-70.4,62.4,-77.9,47.5C-85.4,32.6,-89.8,16.3,-89.3,0.3C-88.8,-15.7,-83.4,-31.5,-74.1,-44.5C-64.8,-57.5,-51.6,-67.8,-37.5,-75.4C-23.4,-83,-11.7,-87.9,1.9,-91C15.5,-94.1,31,-94.4,47.3,-79.7Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#d4b0b0" d="M42.5,-71.3C56.3,-65.1,69.7,-56.2,78.2,-43.5C86.7,-30.8,90.3,-14.1,88.7,1.9C87.1,17.9,80.3,33.8,70.3,47.1C60.3,60.4,47.1,71.1,32.5,76.5C17.9,81.9,1.9,82,-13.5,79.3C-28.9,76.6,-43.7,71.1,-56.1,61.7C-68.5,52.3,-78.5,39,-83.1,24.1C-87.7,9.2,-86.9,-7.3,-81.2,-21.7C-75.5,-36.1,-64.9,-48.4,-52,-57.1C-39.1,-65.8,-23.9,-70.9,-8.8,-71.8C6.3,-72.7,12.5,-69.4,23.1,-69.3C33.7,-69.2,48.7,-72.3,42.5,-71.3Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                    <div class="image-placeholder">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#d4b0b0" d="M54.4,-91.3C71.2,-83.1,85.8,-69.9,93.6,-53.7C101.4,-37.5,102.4,-18.7,99.9,-1.4C97.5,15.9,91.6,31.8,82.2,45.3C72.8,58.8,59.9,69.9,45.3,77.1C30.7,84.3,14.4,87.6,-1.3,89.7C-17,91.8,-33.9,92.7,-48.2,86.5C-62.5,80.3,-74.1,67,-82.1,52C-90.1,37,-94.5,20.5,-94.1,4.3C-93.7,-12,-88.5,-24,-80.9,-34.9C-73.3,-45.8,-63.3,-55.6,-51.1,-65.8C-38.9,-76,-19.5,-86.5,-0.2,-86.2C19.1,-85.9,38.2,-74.8,54.4,-91.3Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="section">
+                <div class="act-content">
+                    <span class="emoji-icon">🌷</span>
+                    <p>Talvez você nunca tenha se visto como quem atravessa. Mas agora é hora.</p>
+                    <p>Este ensaio não é só sobre beleza. É sobre passagem, sobre deixar vestígios da sua própria travessia.</p>
+                    <p>Você merece se guardar neste tempo — com luz, poesia e coragem.</p>
+                    <p>E se eu puder, será uma honra atravessar com você esse trecho de caminho. Com olhos de arte e o cuidado de quem sabe: fotografar é testemunhar.</p>
+                    
+                    <div class="text-center">
+                        <button class="cta-button" onclick="showPage('page2')">Ver proposta completa</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Page 2: Proposta Comercial -->
+    <div id="page2" class="page">
+        <header class="commercial-header">
+            <div class="container">
+                <h1>Entre o Laço e o Lançar</h1>
+            </div>
+        </header>
+        
+        <main class="container">
+            <section class="section">
+                <div class="info-block">
+                    <h2>💌 Proposta Fotográfica – "Entre o Laço e o Lançar"</h2>
+                    <p>Há instantes da vida que não pedem apenas uma lembrança — pedem um rito.</p>
+                    <p>Um gesto simbólico e visual para dizer: eu estive aqui. Eu mudei. Eu floresci.</p>
+                    <p>Este ensaio nasce como uma travessia dividida em três atos, realizados em datas e locações a combinar. Cada ato tem duração aproximada de 1 hora, respeitando o tempo da sua história e do seu corpo.</p>
+                </div>
+                
+                <div class="info-block">
+                    <h2>🎬 Estrutura da Experiência Fotográfica</h2>
+                    <h3>Ato I – O Fim da Festa</h3>
+                    <p>Locação externa em ambiente natural e público, como:</p>
+                    <ul>
+                        <li>Campos abertos nos arredores de Joinville</li>
+                        <li>Praça Nereu Ramos ou Parque Zoobotânico</li>
+                    </ul>
+                    <p>Clima lúdico e nostálgico, com amigas, mãe e elementos simbólicos da juventude.</p>
+                    
+                    <h3>Ato II – A Mulher que Surge</h3>
+                    <p>Realizado em estúdio profissional indicado pela fotógrafa, com 1 hora de sessão.</p>
+                    <p>Atmosfera minimalista, estética refinada e construção de retratos para o novo perfil profissional.</p>
+                    
+                    <h3>Ato III – Entre Mundos</h3>
+                    <p>Locações urbanas públicas e históricas, como:</p>
+                    <ul>
+                        <li>Estação da Memória</li>
+                        <li>Ruas do centro histórico ao anoitecer</li>
+                    </ul>
+                    <p>Um olhar poético para a transição — luzes da cidade, silhuetas e amadurecimento.</p>
+                </div>
+                
+                <div class="info-block">
+                    <h2>📦 Entrega artística</h2>
+                    <ul>
+                        <li>Todas as fotos entregues em alta resolução, com curadoria estética feita pessoalmente pela fotógrafa, respeitando a narrativa visual e emocional do ensaio.</li>
+                        <li>Entrega em formato digital via galeria exclusiva em site personalizado, com atmosfera de galeria de arte.</li>
+                        <li>Entrega final após o terceiro ato.</li>
+                    </ul>
+                </div>
+                
+                <div class="info-block">
+                    <h2>📚 Extras opcionais (não inclusos)</h2>
+                    <p>Você poderá, após o ensaio, optar pela aquisição de:</p>
+                    <ul>
+                        <li>Álbum fotográfico Premium – encadernação clássica, acabamento de luxo, estilo contemplativo.</li>
+                        <li>Livro artesanal artístico – formato de diário visual, com capa em tecido, fitilho e miolo com impressão poética.</li>
+                    </ul>
+                </div>
+                
+                <div class="info-block">
+                    <h2>💰 Investimento</h2>
+                    <p>Ato I (externo)<br>
+                    Ato II (em estúdio)<br>
+                    Ato III (externo)</p>
+                    <p><strong>Total: R$ 1.500</strong></p>
+                    <p>Condições de pagamento:</p>
+                    <ul>
+                        <li>À vista via PIX ou transferência bancária</li>
+                        <li>Ou em até 5x no cartão de crédito via link de pagamento</li>
+                    </ul>
+                </div>
+                
+                <div class="text-center">
+                    <button class="back-button" onclick="showPage('page1')">Voltar à proposta artística</button>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="footer">
+            <div class="footer-content">
+                <h3>Clicando Memórias Fotografia</h3>
+                <div class="contact-info">
+                    <p>WhatsApp: (47) 998457-8291</p>
+                    <p>Instagram: @clicandomemoriasfotografia</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'946f58f6408b9513',t:'MTc0ODQ1MjAzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
+
+</body></html>
